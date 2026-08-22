@@ -71,7 +71,7 @@ build: clean
     uv build
 
 
-{% if cookiecutter.include_index == "y" %}
+{% if cookiecutter.include_index %}
 
 # Dry-run publish (validates artifacts against the index; no upload)
 [group('release')]

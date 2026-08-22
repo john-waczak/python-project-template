@@ -33,7 +33,7 @@ dev = [
   "yamlfix>=1.17.0",
 ]
 
-{% if cookiecutter.include_index == "y" %}
+{% if cookiecutter.include_index %}
 [[tool.uv.index]]
 name = "{{ cookiecutter.index_name }}"
 url = "{{ cookiecutter.index_url }}"
