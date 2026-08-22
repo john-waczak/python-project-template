@@ -15,3 +15,619 @@ dependencies = []
 [build-system]
 requires = ["uv_build>=0.9.29,<0.10.0"]
 build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+  "mdformat-gfm>=0.4.1",
+  "mdformat>=0.7.22",
+  "mypy-extensions>=1.1.0",
+  "prek>=0.2.3",
+  "pydoclint>=0.8.3",
+  "pytest-cov>=6.2.1",
+  "pytest>=8.4.2",
+  "ruff>=0.12.12",
+  "rust-just>=1.50.0",
+  "sqlfluff>=4.0.4",
+  "ty>=0.0.1a20",
+  "types-pyyaml>=6.0.12.20250915",
+  "yamlfix>=1.17.0",
+]
+
+{% if cookiecutter.include_index == "y" %}
+[[tool.uv.index]]
+name = "{{ cookiecutter.index_name }}"
+url = "{{ cookiecutter.index_url }}"
+publish-url = "{{ cookiecutter.index_publish_url }}"
+explicit = {{ cookiecutter.index_explicit }}
+authenticate = "{{ cookiecutter.index_authenticate }}"
+
+{% endif %}
+
+
+# -----------------------------------------------------------------------------
+# Global Ruff settings
+# -----------------------------------------------------------------------------
+[tool.ruff]
+
+exclude = ["tests"]
+
+# Patterns to exclude from linting and formatting
+extend-exclude = []
+
+# Additional patterns to include for linting and formatting
+extend-include = [
+    "*.ipynb"
+]
+
+# Enables automatic fixing of linting issues (when possible)
+fix = true
+
+# Sets the number of spaces used for indentation
+indent-width = 4
+
+# Sets the maximum line length for code formatting
+line-length = 79
+
+# Use new/unstable rules when enabled
+preview = true
+
+# Displays the fixes applied by the tool
+show-fixes = true
+
+# The directory to consider when resolving first- vs. third-party imports
+src = ["{{ cookiecutter.package_slug }}",]
+
+# How do display errors.
+# Options: full, concise, grouped, json, junit, github, gitlab, pylint, azure
+output-format = "full"
+
+# Formatting Configuration
+[tool.ruff.format]
+# Whether to format code snippets in docstrings
+docstring-code-format = true
+
+# Determines the line length for code within docstrings
+# Options: "dynamic" or specific number (e.g., 75)
+docstring-code-line-length = "dynamic"
+
+# Sets the style for indentation (spaces or tabs)
+indent-style = "space"
+
+# Chooses the line-ending style, 'auto' adapts based on operating system
+line-ending = "auto"
+
+# Sets the style for quotation marks in strings
+quote-style = "double"
+
+# Ruff uses existing trailing commas as an indication that short lines
+# should be left separate
+skip-magic-trailing-comma = false
+
+
+## Linting Configuration
+[tool.ruff.lint]
+
+# Let pydoclint handle DOC### noqa comments
+external = ["DOC"]
+
+# Select specific linting rules to apply, identified by their codes
+extend-select = [
+    # Remove commented out code
+    "ERA",
+    # FastAPI rules
+    "FAST",
+    # Type-annotation rules
+    "ANN",
+    # Async rules
+    "ASYNC",
+    # Security Rules
+    "S",
+    # Blind Exceptions Rules
+    "BLE",
+    # Boolean trap Rules
+    #"FBT",
+    # Bugbear - find likely bugs
+    "B",
+    # Rules for shadowing python built-ins
+    "A",
+    # Trailing comma rules
+    "COM",
+    # Write better comprehensions
+    "C4",
+    # Datetime rules
+    "DTZ",
+    # Error Message Rules
+    "EM",
+    # Executable file rules
+    "EXE",
+    # Implicit string concatenation rules
+    "ISC",
+    # Import convention rules
+    "ICN",
+    # Logging rules
+    "LOG",
+    # Logging formatting rules
+    "G",
+    # Ban implicit namespace packages
+    "INP",
+    # Flake-8 pie rules
+    "PIE",
+    # Pytest style rules
+    "PT",
+    # Quote rules
+    "Q",
+    # Raise rules
+    "RSE",
+    # Return rules
+    "RET",
+    # Self rules
+    "SLF",
+    # Help simplify your code
+    "SIM",
+    # Tidier imports
+    "TID",
+    # Handle type-checking-only imports
+    "TC",
+    # Rules for function arguments
+    "ARG",
+    # Use pathlib
+    "PTH",
+    # Prefer fstrings
+    "FLY",
+    # Isort rules
+    "I",
+    # Numpy rules
+    "NPY",
+    # Pandas rules
+    "PD",
+    # Naming rules
+    "N",
+    # Performance anti-patterns
+    "PERF",
+    # Pycodestyle Error rules
+    "E",
+    # Pycodestyle Warning rules
+    "W",
+    # Pydoclint rules
+    "DOC",
+    # Pydocstyle rules
+    "D",
+    # Pyflakes rules
+    "F",
+    # Pylint rules
+    "PL",
+    # Refurb rules
+    "FURB",
+    # Ruff-specific rules
+    "RUF",
+    # Exception handling anti-patterns
+    "TRY",
+]
+
+# Defines which rules can be automatically fixed
+fixable = [
+    "ALL"  # Allows all fixable issues to be automatically corrected
+]
+
+# A list of rule codes to ignore during linting
+ignore = [
+    # Dynamically typed expressions (typing.Any) are disallowed
+    "ANN401",
+    # Missing docstring in public module
+    "D100",
+    # One-line docstring should fit on one line with quotes
+    "D200",
+    # One blank line required between summary line and description
+    "D205",
+    # Missing blank line after last section
+    "D413",
+    # Implicit namespace
+    "INP001",
+    # Magic value used in comparison
+    "PLR2004",
+    # Allow uppercase arguments
+    "N803",
+    # Allow uppercase variables
+    "N806",
+]
+
+# Ruff plugin-specific linting configurations
+
+# Settings specific to pytest-style checks in flake8
+[tool.ruff.lint.flake8-pytest-style]
+# Specifies whether parentheses should be used in fixture declarations
+fixture-parentheses = true
+
+# Specifies whether parentheses should be used in marker declarations
+mark-parentheses = true
+
+# Sets the type for parameter names in parametrize decorations
+# Options: "tuple", "list"
+parametrize-names-type = "tuple"
+
+# Sets the row type for parametrize values
+# Options: "tuple", "list"
+parametrize-values-row-type = "tuple"
+
+# Sets the overall type for parametrize values
+# Options: "tuple", "list"
+parametrize-values-type = "tuple"
+
+# Configuration for flake8 quotes plugin under ruff
+[tool.ruff.lint.flake8-quotes]
+# Sets the type of quotes for docstrings
+# Options: "single", "double"
+docstring-quotes = "double"
+
+# Sets the type of quotes for inline expressions
+# Options: "single", "double"
+inline-quotes = "double"
+
+# Sets the type of quotes for multiline strings
+# Options: "single", "double"
+multiline-quotes = "double"
+
+# Configuration for isort, a Python import sorter, under ruff
+[tool.ruff.lint.isort]
+# Sorts imports case-sensitively, meaning that capitalized letters come
+# before lowercase
+case-sensitive = true
+
+# Allows combining 'as' imports into a single line; helps to keep the
+# import section neat and tidy
+combine-as-imports = true
+
+# Forces each import to be on a single line; useful for keeping a clear
+# list of imports
+force-single-line = false
+
+# Ensures all imports within a section are sorted together; useful for
+# large projects with many imports
+force-sort-within-sections = false
+
+# When combining long from imports, forces wrapping of aliases into
+# multiple lines, aiding in readability
+force-wrap-aliases = true
+
+# Determines whether to place 'from' imports before 'import' statements
+from-first = false
+
+# Disables isort's default behavior to place imports in sections
+no-sections = false
+
+# Configures the order for relative imports, placing more distant imports
+# before closer ones
+# Options: "furthest-to-closest", "closest-to-furthest"
+relative-imports-order = "furthest-to-closest"
+
+# Dictates the order of imports
+section-order = [
+    "future",            # Future library imports, e.g., from __future__
+    "standard-library",  # Standard library imports (like os, sys)
+    "third-party",       # Imports from third-party libraries (e.g., numpy)
+    "first-party",       # Imports from modules of the same project
+    "local-folder"       # Imports intended for local folder modules
+]
+
+# Allows trailing commas when splitting imports into multiple lines, which
+# is especially useful for version control systems
+split-on-trailing-comma = true
+
+# Additional Plugin-Specific Linting Configuration
+
+# pycodestyle settings for ruff
+[tool.ruff.lint.pycodestyle]
+# Sets the maximum length for docstrings
+max-doc-length = 79
+
+# Sets the maximum line length for code
+max-line-length = 79
+
+# pydocstyle settings for ruff
+[tool.ruff.lint.pydocstyle]
+# Specifies the docstring convention to use
+# Options: "numpy", "google", "pep257"
+convention = "numpy"
+
+# pylint settings for Ruff
+[tool.ruff.lint.pylint]
+# List of dunder methods name to allow, in addition to the default set
+allow-dunder-method-names = []
+
+# List of types that are considered to be magic values.
+allow-magic-value-types = []
+
+# Maximum number of arguments for a function or method.
+max-args = 10
+
+# Maximum number of boolean expressions in a single condition.
+max-bool-expr = 5
+
+# Maximum number of branches in a function or method.
+max-branches = 20
+
+# Maximum number of local variables in a function or method.
+max-locals = 20
+
+# Maximum number of nested blocks in a function or method.
+max-nested-blocks = 10
+
+# Maximum number of positional arguments for a function or method.
+max-positional-args = 10
+
+# Maximum number of public methods in a class.
+max-public-methods = 30
+
+# Maximum number of return statements in a function or method.
+max-returns = 10
+
+# Maximum number of statements in a function or method.
+max-statements = 75
+
+# ----------------------------------------------------------------------------
+# ty (type checking) settings
+# ----------------------------------------------------------------------------
+[too.ty]
+ 
+[tool.ty.environment]
+python-platform = "all"  # "win32" | "darwin" | "linux" | "android" | "ios" | "all"
+
+[tool.ty.analysis]
+# Support for `type: ignore` comments
+respect-type-ignore-comments = true
+
+# Options: "ignore" | "warn" | "error"
+[tool.ty.rules]
+possibly-unresolved-reference = "error"
+unused-type-ignore-comment = "warn"
+
+# Determines which files ty analyzes
+[tool.ty.src]
+# Files and directories to analyze (glob patterns)
+include = [
+  "src/**/*.py", # All Python files in src directory
+  "tests/**/*.py", # All Python files in tests directory
+  "scripts/*.py", # Python scripts in scripts directory
+]
+
+# Files and directories to exclude
+exclude = [
+  "dist/**",
+]
+
+# Whether to respect .gitignore, .tyignore, and other ignore files
+respect-ignore-files = true
+
+[tool.ty.terminal]
+# Format for diagnostic messages
+# Options: "full" | "concise"
+output-format = "full"
+# Whether to exit with error code on warnings
+error-on-warning = false
+
+
+
+
+# ----------------------------------------------------------------------------
+# Pydoclint configuration
+# ----------------------------------------------------------------------------
+# https://jsh9.github.io/pydoclint/config_options.html
+[tool.pydoclint]
+# The style of docstring to enforce
+style = "numpy"
+
+# Whether to include argument type hints in function signatures
+arg-type-hints-in-signature = true
+
+# Whether to enforce type hints in docstrings for function arguments
+arg-type-hints-in-docstring = true
+
+# Whether to check the order of arguments in docstrings against the
+# function signature
+check-arg-order = true
+
+# Whether to skip checking short docstrings
+skip-checking-short-docstrings = false
+
+# Whether to skip checking for the presence of a "Raises" section
+skip-checking-raises = false
+
+# Whether to allow __init__ methods to have a docstring that only documents
+# the class
+allow-init-docstring = true
+
+# Whether to require a "Returns" section even when a function returns
+# nothing
+require-return-section-when-returning-nothing = false
+
+# Whether to check that the return type in docstrings matches the
+# function's return type
+check-return-types = true
+
+# Whether to require a "Yields" section even when a generator yields
+# nothing
+require-yield-section-when-yielding-nothing = true
+
+# Whether to check that the yield type in docstrings matches the
+# generator's yield type
+check-yield-types = true
+
+# Whether to ignore arguments that start with an underscore
+ignore-underscore-args = true
+
+# Whether to check for class attribute documentation
+check-class-attributes = true
+
+# Whether to require documentation for private class attributes
+should-document-private-class-attributes = false
+
+# Whether to treat property methods as class attributes for documentation
+# purposes
+treat-property-methods-as-class-attributes = false
+
+# Whether to show filenames in every violation message
+show-filenames-in-every-violation-message = false
+
+# Look for noqa comments at function definition
+native-mode-noqa-location = "definition"
+
+# Folders and files to ignore
+exclude = [
+    "*marimo*",
+    "scratchwork/",
+    "tests/*"
+]
+
+
+# ----------------------------------------------------------------------------
+# Pytest configuration settings
+# ----------------------------------------------------------------------------
+[tool.pytest]
+
+[tool.pytest.ini_options]
+
+# Where pytest should look for tests
+testpaths = ["tests"]
+
+# Skip the following directories when looking for tests
+norecursedirs = [
+  ".git",
+  ".history",
+  ".ipynb_checkpoints",
+  ".pytest_cache",
+  ".venv",
+  "__pycache__",
+  "venv",
+]
+
+# Patterns to use for matching test files
+python_files = ["*_test.py", "test_*.py"]
+
+# Patterns to use for matching test classes
+python_classes = ["Test*"]
+
+# Patterns to use for matching test functions
+python_functions = ["test_*"]
+
+# Automatically add following options by default
+addopts = [
+    "-m",
+    "not slow",
+    # "--cov=src",
+    # "--cov-report=term-missing",
+    # "--cov-fail-under=80"
+]
+
+# Custom markers
+# Define custom markers for categorizing tests
+markers = [
+  "integration: marks integration tests",
+  "mock: marks tests that use mocking with pytest-mock",
+  "regression: marks tests that are part of the regression test suite",
+  "slow: marks tests that are slow to run",
+  "smoke: marks basic smoke tests to ensure critical functionality",
+]
+
+# Where to cache pytest data
+cache_dir = ".pytest_cache"
+
+# Options: classic, progress, count
+console_output_style = "progress"
+
+# Encoding to use with docstring text
+doctest_encoding = "utf-8"
+
+# Action for empty parameter sets
+# Options: skip, xfail, fail_at_collect
+empty_parameter_set_mark = "skip"
+
+# Sets the logging level
+# Options: CRITICAL, ERROR, WARNING, INFO, DEBUG, NOTSET
+log_level = "NOTSET"
+
+# Sets the format for log messages
+log_format = "%(filename)s:%(lineno)d %(levelname)s %(message)s"
+
+[tool.coverage.run]
+omit = [
+    "tests/*",
+    "*/__init__.py"
+]
+
+
+# ----------------------------------------------------------------------------
+# mdformat configuration settings
+# ----------------------------------------------------------------------------
+[tool.mdformat]
+# Enable GFM extensions
+extensions = ["gfm"]
+exclude = ["*.qmd"]
+
+[tool.mdformat.plugin.tables]
+compact_tables = false
+
+
+# ----------------------------------------------------------------------------
+# sqlfluff configuration settings
+# ----------------------------------------------------------------------------
+[tool.sqlfluff.core]
+dialect = "postgres"
+max_line_length = 79
+tab_space_size = 4
+large_file_skip_byte_limit = 0
+
+# ST06 forces ordering in select by sumple before function/derived. This is
+# annoying.
+exclude_rules = "ST06"
+
+[tool.sqlfluff.rules.convention.not_equal]
+# prefer != over <>
+preferred_not_equal_style = "c_style"
+
+[tool.sqlfluff.rules.capitalisation.functions]
+extended_capitalisation_policy = "upper"
+
+[tool.sqlfluff.rules.capitalisation.identifiers]
+extended_capitalisation_policy = "lower"
+
+[tool.sqlfluff.rules.capitalisation.keywords]
+capitalisation_policy = "upper"
+
+[tool.sqlfluff.rules.capitalisation.literals]
+capitalisation_policy = "upper"
+
+[tool.sqlfluff.rules.capitalisation.types]
+capitalisation_policy = "upper"
+
+
+# ----------------------------------------------------------------------------
+# yamlfix: YAML formatting tool configuration
+# ----------------------------------------------------------------------------
+[tool.yamlfix]
+# Wrap long lines to match the project's general line width
+line_length = 80
+# Preserve the explicit "---" document start used across config files
+explicit_start = true
+# Keep comments anchored to their content
+comments_min_spaces_from_content = 1
+# Quote strings only when required
+quote_basic_values = false
+preserve_quotes = true
+# Indent list items under their key for readability
+sequence_style = "block_style"
+indent_mapping = 2
+indent_sequence = 4
+indent_offset = 2
+
+
+
+# ----------------------------------------------------------------------------
+# format-docstring: Docstring formatting tool configuration
+# ----------------------------------------------------------------------------
+[tool.format_docstring]
+line_length = 79
+docstring_style = "numpy"
+fix_rst_backticks = true
+exclude = "\\.git|\\.venv|__pycache__"
+verbose = "default"
+

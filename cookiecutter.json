@@ -7,4 +7,10 @@
   "email": "project@email.com",
   "python_version": "3.12",
   "requires_python": ">=3.12"
+  "include_index": ["y", "n"],
+  "index_name": "testpypi",
+  "index_url" : "https://test.pypi.org/simple",
+  "index_publish_url": "https://test.pypi.org/legacy/",
+  "index_explicit": true,
+  "index_authenticate": "always"
 }

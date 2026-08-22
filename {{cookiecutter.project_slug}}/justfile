@@ -1,0 +1,86 @@
+# Define project root
+root := justfile_directory()
+
+# List available recipes
+default:
+    @just --list
+
+# ----------------------------------------------------------------------------
+# dev: tests and quality checks
+# ----------------------------------------------------------------------------
+
+# Run the test suite
+[group('dev')]
+test *args:
+    uv run pytest {{args}}
+
+# Run the test suite with coverage (branch + term-missing report)
+[group('dev')]
+test_cov *args:
+    uv run pytest --cov=package_name --cov-report=term-missing --cov-branch {{args}}
+
+# Lint with ruff and auto-fix what it safely can
+[group('dev')]
+lint *args:
+    uv run ruff check --fix {{args}}
+
+# Format the codebase with ruff
+[group('dev')]
+format *args:
+    uv run ruff format {{args}}
+
+# Lint (no fixes) + format check + tests -- the full pre-commit gate
+[group('dev')]
+check:
+    uv run ruff check
+    uv run ruff format --check
+    uv run pytest
+
+# Run all pre-commit hooks via prek (ruff, ty, pydoclint, sqlfluff, mdformat, taplo)
+[group('dev')]
+precommit *args:
+    uv run prek run --all-files --show-diff-on-failure {{args}}
+
+# ----------------------------------------------------------------------------
+# docs: publish documentation
+# ----------------------------------------------------------------------------
+
+# Deploy markdown files from /docs to the wiki
+[group('docs')]
+deploy_docs:
+    bash scripts/deploy_docs.sh
+
+# Print the current package version (from pyproject.toml)
+[group('release')]
+version:
+    uv version --short
+
+# Bump the version: `just bump patch` | minor | major
+[group('release')]
+bump level="patch":
+    uv version --bump {{level}}
+
+# Remove build artifacts
+[group('release')]
+clean:
+    rm -rf {{root}}/dist
+
+# Build sdist and wheel into dist/
+[group('release')]
+build: clean
+    uv build
+
+
+{% if cookiecutter.include_index == "y" %}
+
+# Dry-run publish (validates artifacts against the index; no upload)
+[group('release')]
+publish_check: build
+    uv publish --index {{ cookiecutter.index_name }} --dry-run
+
+# Build and publish the current version to Artifactory
+[group('release')]
+publish: build
+    uv publish --index {{ cookiecutter.index_name }}
+
+{% endif %}
