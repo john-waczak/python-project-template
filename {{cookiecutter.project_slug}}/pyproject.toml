@@ -10,7 +10,7 @@ requires-python = "{{ cookiecutter.requires_python }}"
 dependencies = []
 
 [project.scripts]
-{{ cookiecutter.project_cmd }} = "{{ cookiecutter.project_slug }}.main:main"
+{{ cookiecutter.project_cmd }} = "{{ cookiecutter.package_slug }}.main:main"
 
 [build-system]
 requires = ["uv_build>=0.9.29,<0.10.0"]
@@ -75,7 +75,7 @@ preview = true
 show-fixes = true
 
 # The directory to consider when resolving first- vs. third-party imports
-src = ["{{ cookiecutter.project_slug }}",]
+src = ["{{ cookiecutter.package_slug }}",]
 
 # How do display errors.
 # Options: full, concise, grouped, json, junit, github, gitlab, pylint, azure

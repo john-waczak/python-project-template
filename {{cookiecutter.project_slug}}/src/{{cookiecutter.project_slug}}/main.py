@@ -1,5 +1,5 @@
 def main() -> None:
     """
-    Main entrypoint for {{ cookiecutter.project_slug }}
+    Main entrypoint for {{ cookiecutter.package_slug }}
     """
     print("Hello, world!")
