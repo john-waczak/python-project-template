@@ -6,6 +6,5 @@
   "author": "Project Author",
   "email": "project@email.com",
   "python_version": "3.12",
-  "requires_python": ">=3.12",
-
+  "requires_python": ">=3.12"
 }
