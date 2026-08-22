@@ -12,22 +12,22 @@ default:
 # Run the test suite
 [group('dev')]
 test *args:
-    uv run pytest {{args}}
+    uv run pytest {% raw %}{{args}}{% endraw %}
 
 # Run the test suite with coverage (branch + term-missing report)
 [group('dev')]
 test_cov *args:
-    uv run pytest --cov=package_name --cov-report=term-missing --cov-branch {{args}}
+    uv run pytest --cov=package_name --cov-report=term-missing --cov-branch {% raw %}{{args}}{% endraw %}
 
 # Lint with ruff and auto-fix what it safely can
 [group('dev')]
 lint *args:
-    uv run ruff check --fix {{args}}
+    uv run ruff check --fix {% raw %}{{args}}{% endraw %}
 
 # Format the codebase with ruff
 [group('dev')]
 format *args:
-    uv run ruff format {{args}}
+    uv run ruff format {% raw %}{{args}}{% endraw %}
 
 # Lint (no fixes) + format check + tests -- the full pre-commit gate
 [group('dev')]
@@ -39,7 +39,7 @@ check:
 # Run all pre-commit hooks via prek (ruff, ty, pydoclint, sqlfluff, mdformat, taplo)
 [group('dev')]
 precommit *args:
-    uv run prek run --all-files --show-diff-on-failure {{args}}
+    uv run prek run --all-files --show-diff-on-failure {% raw %}{{args}}{% endraw %}
 
 # ----------------------------------------------------------------------------
 # docs: publish documentation
@@ -58,12 +58,12 @@ version:
 # Bump the version: `just bump patch` | minor | major
 [group('release')]
 bump level="patch":
-    uv version --bump {{level}}
+    uv version --bump {% raw %}{{level}}{% endraw %}
 
 # Remove build artifacts
 [group('release')]
 clean:
-    rm -rf {{root}}/dist
+    rm -rf {% raw %}{{root}}{% endraw %}/dist
 
 # Build sdist and wheel into dist/
 [group('release')]
