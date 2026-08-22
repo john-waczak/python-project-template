@@ -1,7 +1,7 @@
 {
   "project_name": "Project Name",
   "project_slug": "project-slug",
-  "package_slug": "package-slug",
+  "package_slug": "package_slug",
   "project_cmd": "Command to use for running project entrypoints",
   "project_description": "A brief description of your project",
   "author": "Project Author",
