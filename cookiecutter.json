@@ -1,0 +1,11 @@
+{
+  "project_name": "Project Name",
+  "project_slug": "project_slug",
+  "project_cmd": "Command to use for running project entrypoints",
+  "project_description": "A brief description of your project",
+  "author": "Project Author",
+  "email": "project@email.com",
+  "python_version": "3.12"
+  "requires_python": ">=3.12",
+
+}

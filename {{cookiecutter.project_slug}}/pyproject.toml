@@ -1,0 +1,17 @@
+[project]
+name = "{{ cookiecutter.project_name }}"
+version = "0.1.0"
+description = "{{ cookiecutter.project_description }}"
+readme = "README.md"
+authors = [
+    { name = "{{ cookiecutter.author }}", email = "{{ cookiecutter.email }}" }
+]
+requires-python = "{{ cookiecutter.requires_python }}"
+dependencies = []
+
+[project.scripts]
+{{ cookiecutter.project_cmd }} = "{{project_slug}}.main:main"
+
+[build-system]
+requires = ["uv_build>=0.9.29,<0.10.0"]
+build-backend = "uv_build"
