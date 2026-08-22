@@ -1,4 +1,4 @@
-def main(): -> None
+def main() -> None:
     """
     Main entrypoint for {{ cookiecutter.project_slug }}
     """
