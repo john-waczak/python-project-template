@@ -75,7 +75,7 @@ preview = true
 show-fixes = true
 
 # The directory to consider when resolving first- vs. third-party imports
-src = ["{{ cookiecutter.package_slug }}",]
+src = ["{{ cookiecutter.project_slug }}",]
 
 # How do display errors.
 # Options: full, concise, grouped, json, junit, github, gitlab, pylint, azure
