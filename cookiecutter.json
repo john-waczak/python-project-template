@@ -1,9 +1,9 @@
 {
-  "project_name": "Project Name",
-  "project_slug": "project-slug",
-  "package_slug": "package_slug",
-  "project_cmd": "Command to use for running project entrypoints",
-  "project_description": "A brief description of your project",
+  "project_name": "New Project",
+  "project_slug": "new-project",
+  "package_slug": "new_project",
+  "project_cmd": "np",
+  "project_description": "A new python project managed by uv.",
   "author": "Project Author",
   "email": "project@email.com",
   "python_version": "3.12",
@@ -13,5 +13,22 @@
   "index_url" : "https://test.pypi.org/simple",
   "index_publish_url": "https://test.pypi.org/legacy/",
   "index_explicit": ["true", "false"],
-  "index_authenticate": "always"
+  "index_authenticate": ["always", "never"],
+  "__prompts__": {
+        "project_name": "Enter your project name",
+        "project_slug": "Enter the project slug - with dashes",
+        "package_slug": "Enter the package slug - with underscores",
+        "project_cmd": "Enter name for the CLI entrypoint",
+        "project_description": "Enter a brief description for the project",
+        "author": "Enter the project author's name",
+        "email": "Enter the project author's email address",
+        "python_version": "Enter the python version for the project",
+        "requires_python": "Enter the python version requirements",
+        "include_index": "Include an index in pyproject.toml?",
+        "index_name": "Enter a name for the index",
+        "index_url": "Enter the url for the index",
+        "index_publish_url": "Enter the url for publishing to the index",
+        "index_explicit": "Require index dependencies be explicit?",
+        "index_authenticate": "Force credential lookup for index?"
+    }
 }
